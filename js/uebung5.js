@@ -1,17 +1,30 @@
         const transaktionForm = document.getElementById('transaktionForm');
         const transaktionsListe = document.getElementById('transaktionsListe');
-        const budgetInput = document.getElementById('budget');
         const textInput = document.getElementById('text');
         const transaktionInput = document.getElementById('transaktion');
+        const gesamtbetragElement = document.getElementById('gesamtbetrag');
+
+        // Funktion zur Datenwiederherstellung aus localStorage
+        function restoreData() {
+            const savedData = localStorage.getItem('transaktionen');
+            if (savedData) {
+                const parsedData = JSON.parse(savedData);
+                transaktionen.push(...parsedData);
+                updateTransaktionsListe();
+                updateGesamtbetrag();
+            }
+        }
 
         // Array zur Speicherung der Transaktionen
         const transaktionen = [];
+
+        // Daten bei Laden der Seite wiederherstellen
+        restoreData();
 
         transaktionForm.addEventListener('submit', function (event) {
             event.preventDefault();
 
             // Werte aus den Eingabefeldern abrufen
-            const budget = parseFloat(budgetInput.value);
             const text = textInput.value;
             const transaktion = parseFloat(transaktionInput.value);
 
@@ -20,6 +33,12 @@
 
             // Transaktionsliste aktualisieren
             updateTransaktionsListe();
+
+            // Gesamtbetrag aktualisieren
+            updateGesamtbetrag();
+
+            // Daten in localStorage speichern
+            localStorage.setItem('transaktionen', JSON.stringify(transaktionen));
 
             // Eingabefelder leeren
             textInput.value = '';
@@ -32,8 +51,19 @@
 
             // Transaktionen durchlaufen und zur Liste hinzufügen
             transaktionen.forEach(function (transaktion) {
-                const listItem = document.createElement('li');
-                listItem.textContent = `${transaktion.text}: ${transaktion.transaktion}`;
-                transaktionsListe.appendChild(listItem);
+                const row = document.createElement('tr');
+                const beschreibungCell = document.createElement('td');
+                beschreibungCell.textContent = transaktion.text;
+                const kostenCell = document.createElement('td');
+                kostenCell.textContent = transaktion.transaktion;
+                row.appendChild(beschreibungCell);
+                row.appendChild(kostenCell);
+                transaktionsListe.appendChild(row);
             });
+        }
+
+        function updateGesamtbetrag() {
+            // Gesamtbetrag berechnen und aktualisieren
+            const gesamtbetrag = transaktionen.reduce((sum, transaktion) => sum + transaktion.transaktion, 0);
+            gesamtbetragElement.textContent = `Gesamtbetrag: ${gesamtbetrag}`;
         }
