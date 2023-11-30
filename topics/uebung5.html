@@ -1,5 +1,4 @@
 <DOCTYPE!>
-
 <html>
 <head>
     <meta charset="UTF-8">
@@ -11,26 +10,34 @@
     <meta name="theme-color" content="#db4938">
     <title>Übung 5</title>
 </head>
-
   <body>
-    <h1>Transaktion</h1>
-    <form>
-        <label for="budget">Summe:</label>
-        <input type="number" id="budget" name="budget" required><br><br>
+    <h1>Transaktionsformular</h1>
+    <form id="transaktionForm">
+        <label for="text">Beschreibung:</label>
+        <input type="text" id="text" name="text" required><br><br>
 
-        <label for="text">Text:</label>
-        <input type="text" id="text" name="text"><br><br>
-
-        <label for="transaktion">Wert der Transaktion:</label>
+        <label for="transaktion">Kosten:</label>
         <input type="number" id="transaktion" name="transaktion" required><br><br>
 
-        <input type="submit" value="Save Transaktion">
+        <input type="submit" value="Transaktion speichern">
     </form>
-      <h1>List</h1>
-        <ul id="transaktionsListe">
-        <!-- Einkaufsliste -->
-    </ul>  
- <script src="/uebungen/js/uebung5.js"></script>    
+
+    <h2>Einkaufsliste</h2>
+    <table id="transaktionenTabelle">
+        <thead>
+            <tr>
+                <th>Beschreibung</th>
+                <th>Kosten</th>
+            </tr>
+        </thead>
+        <tbody id="transaktionsListe">
+            <!-- Hier werden die Transaktionen angezeigt -->
+        </tbody>
+    </table>
+
+    <div id="gesamtbetrag">Gesamtbetrag: 0</div>
+ 
+  <script src="/uebungen/js/uebung5.js"></script>    
   </body>
   
 </html>
